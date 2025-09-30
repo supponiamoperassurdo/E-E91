@@ -1,0 +1,18 @@
+numpy
+scipy
+pandas
+matplotlib
+seaborn
+pylatexenc
+scikit-learn
+itertools
+pathlib
+joblib
+torch
+qiskit >=1.3, <2
+qiskit_aer >=0.16
+qiskit_ibm_runtime >=0.29 , <0.40
+
+# Queste due righe servono per installare la libreria hopfield-layers, che non è presente su pip: la prima serve per settare la codifica UTF-8 (necessaria per far funzionare la libreria su Windows), la seconda per installarla direttamente da GitHub
+# set PYTHONUTF8=1 # su windows: $env:PYTHONUTF8=1
+# pip install "git+https://github.com/ml-jku/hopfield-layers"
