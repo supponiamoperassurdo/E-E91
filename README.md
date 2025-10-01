@@ -26,7 +26,9 @@ Repository for the simulation and analysis of the **E-E91** (Enhanced-E91) proto
 - Pipeline for feature extraction from CHSH statistics and anticorrelation distributions.
 - Models for `Eavesdropper` detection.
 
-Goal: provide reproducible code to test hypotheses and build a classifier that distinguishes clean channels from compromised channels.
+This project attempts to add an intelligent component to the E91 quantum key distribution (QKD) protocol, first introduced by Artur Ekert in 1991.
+Specifically, a supervised approach was used, leveraging an ensemble of six different classifiers of different nature, making a naive assumption about the weight of each vote given by the individual models.
+The enhanced protocol, called E-E91, has the ability to halt early, thus potentially saving computational resources.
 
 ---
 
