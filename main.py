@@ -3,14 +3,17 @@ import sys
 def Simulate_E91():
 
     '''
-    Simulazione del protocollo E91 di distribuzione di chiavi quantistiche.
-    Si può scegliere se eseguire la simulazione in un canale ideale o rumoroso, e se simulare o meno la presenza di un intercettatore.
-    In quest'ultimo caso, si può vedere come l'intercettazione vada a compromettere la correttezza della chiave condivisa tra Alice e Bob.
-    In ogni caso, si può vedere come l'intercettatore non riesca a decifrare il messaggio cifrato con la chiave di Alice.
+    Simulation of the E91 quantum key distribution protocol.
+    You can choose whether to run the simulation on an ideal or noisy channel,
+    and whether to simulate the presence of an eavesdropper.
+    In the latter case, you can see how the interception compromises the correctness
+    of the shared key between Alice and Bob.
+    In any case, you can observe that the eavesdropper cannot decrypt the message
+    encrypted with Alice's key.
     '''
 
-    eavesdropper       = True if input("Vuoi eseguire la simulazione di una intercettazione? ('n' / 'y') ") == "y" else False
-    real               = True if input("Vuoi eseguire la simulazione in un canale rumoroso? ('n' / 'y') ") == "y" else False
+    eavesdropper       = True if input("Do you want to simulate an eavesdropping attack? ('n' / 'y') ") == "y" else False
+    real               = True if input("Do you want to run the simulation on a noisy channel? ('n' / 'y') ") == "y" else False
 
     if real:
         # noise_model    = noise_model_from_json(json_file = "imbq_backends_properties/ibm_brisbane_properties.json", gate_error = False, warnings = False)[1]
@@ -28,44 +31,48 @@ def Simulate_E91():
     eve_key_from_bob   = ''.join(results['eve_key_from_bob'])
 
     plaintext = '''
-    Se ni' mondo esistesse un po' di bene
-    e ognun si honsiderasse suo fratello
-    ci sarebbe meno pensieri e meno pene
-    e il mondo ne sarebbe assai più bello.
+    If there were some goodness in the world
+    and everyone considered one another as brother,
+    there would be fewer worries and fewer pains,
+    and the world would be much more beautiful.
     '''
 
-    # cifriamo il testo con la chiave di Alice
+    # encrypt the text with Alice's key
     alice_sended_ciphertext = xorencrypt(key = alice_key, text = plaintext)
 
-    # decifriamo con la chiave di Bob (che dovrebbe essere uguale a quella di Alice nel caso ideale)
+    # decrypt with Bob's key (which should be equal to Alice's in the ideal case)
     bob_received_plaintext = xorencrypt(key = bob_key, text = alice_sended_ciphertext)
-    print(f'\n>>> Tentativo di decifrazione di Bob\n{bob_received_plaintext.decode("utf-8")}')
+    print(f'\n>>> Bob decryption attempt\n{bob_received_plaintext.decode("utf-8")}')
 
     if eavesdropper:
 
         eve_received_plaintext_from_alice_key = xorencrypt(key = eve_key_from_alice, text = alice_sended_ciphertext)
-        print(f'\n>>> Tentativo di decifrazione di Eve con la chiave di Alice\n{eve_received_plaintext_from_alice_key.decode("utf-8")}')
+        print(f'\n>>> Eve decryption attempt with Alice\'s key\n{eve_received_plaintext_from_alice_key.decode("utf-8")}')
 
         eve_received_plaintext_from_bob_key = xorencrypt(key = eve_key_from_bob, text = alice_sended_ciphertext)
-        print(f'\n>>> Tentativo di decifrazione di Eve con la chiave di Bob\n{eve_received_plaintext_from_bob_key.decode("utf-8")}')
+        print(f'\n>>> Eve decryption attempt with Bob\'s key\n{eve_received_plaintext_from_bob_key.decode("utf-8")}')
 
 def Simulate_EE91(datatransformer: any, classifiers: list):
 
     '''
-    Simulazione del protocollo E-E91 di distribuzione di chiavi quantistiche con rilevamento di intercettatori tramite machine learning.
-    Si può scegliere se eseguire la simulazione in un canale ideale o rumoroso, e se simulare o meno la presenza di un intercettatore.
-    In quest'ultimo caso, si può vedere come l'intercettazione vada a compromettere la correttezza della chiave condivisa tra Alice e Bob.
-    In ogni caso, si può vedere come l'intercettatore non riesca a decifrare il messaggio cifrato con la chiave di Alice.
-    Inoltre, se si esegue la simulazione in un canale rumoroso, i classificatori di machine learning cercheranno di rilevare la presenza di un intercettatore.
+    Simulation of the E-E91 quantum key distribution protocol with eavesdropper detection via machine learning.
+    You can choose whether to run the simulation on an ideal or noisy channel,
+    and whether to simulate the presence of an eavesdropper.
+    In the latter case, you can see how the interception compromises the correctness
+    of the shared key between Alice and Bob.
+    In any case, you can observe that the eavesdropper cannot decrypt the message
+    encrypted with Alice's key.
+    Moreover, if the simulation is run on a noisy channel, the machine learning classifiers
+    will attempt to detect the presence of an eavesdropper.
     
-    Per i classificatori, si possono usare quelli salvati in precedenza in formato .pkl/pth, oppure crearne di nuovi.
-    Nel mega-notebook, andare in "Ricerca di un'intercettatore nell'E91 con il machine learning > Training e testing di un modello per il riconoscimento di un'intercettatore in un canale rumoroso":
-    lì si possono creare nuovi modelli, testarli e salvarli.
-    In quest'ultimo caso, bisogna salvare i modelli nella cartella "E-E91/models" con i nomi usati qui sotto.
+    For classifiers, you can use models previously saved in .pkl/.pth format, or create new ones.
+    In the mega-notebook, go to "Detecting an eavesdropper in E91 with machine learning > Training and testing a model for eavesdropper recognition in a noisy channel":
+    there you can create new models, test them and save them.
+    In that case, models must be saved to the "E-E91/models" folder with the names used below.
     '''
 
-    eavesdropper       = True if input("Vuoi eseguire la simulazione di una intercettazione? ('n' / 'y') ") == "y" else False
-    real               = True if input("Vuoi eseguire la simulazione in un canale rumoroso? ('n' / 'y') ") == "y" else False
+    eavesdropper       = True if input("Do you want to simulate an eavesdropping attack? ('n' / 'y') ") == "y" else False
+    real               = True if input("Do you want to run the simulation on a noisy channel? ('n' / 'y') ") == "y" else False
 
     if real:
         # backend_model  = "imbq_backends_properties/ibm_brisbane_properties.json"
@@ -84,31 +91,31 @@ def Simulate_EE91(datatransformer: any, classifiers: list):
     eve_key_from_bob   = ''.join(results['eve_key_from_bob'])
 
     plaintext = '''
-    Se ni' mondo esistesse un po' di bene
-    e ognun si honsiderasse suo fratello
-    ci sarebbe meno pensieri e meno pene
-    e il mondo ne sarebbe assai più bello.
+    If there were some goodness in the world
+    and everyone considered one another as brother,
+    there would be fewer worries and fewer pains,
+    and the world would be much more beautiful.
     '''
 
-    # cifriamo il testo con la chiave di Alice
+    # encrypt the text with Alice's key
     alice_sended_ciphertext = xorencrypt(key = alice_key, text = plaintext)
 
-    # decifriamo con la chiave di Bob (che dovrebbe essere uguale a quella di Alice nel caso ideale)
+    # decrypt with Bob's key (which should be equal to Alice's in the ideal case)
     bob_received_plaintext = xorencrypt(key = bob_key, text = alice_sended_ciphertext)
-    print(f'\n>>> Tentativo di decifrazione di Bob\n{bob_received_plaintext.decode("utf-8")}')
+    print(f'\n>>> Bob decryption attempt\n{bob_received_plaintext.decode("utf-8")}')
 
     if eavesdropper:
 
         eve_received_plaintext_from_alice_key = xorencrypt(key = eve_key_from_alice, text = alice_sended_ciphertext)
-        print(f'\n>>> Tentativo di decifrazione di Eve con la chiave di Alice\n{eve_received_plaintext_from_alice_key.decode("utf-8")}')
+        print(f'\n>>> Eve decryption attempt with Alice\'s key\n{eve_received_plaintext_from_alice_key.decode("utf-8")}')
 
         eve_received_plaintext_from_bob_key = xorencrypt(key = eve_key_from_bob, text = alice_sended_ciphertext)
-        print(f'\n>>> Tentativo di decifrazione di Eve con la chiave di Bob\n{eve_received_plaintext_from_bob_key.decode("utf-8")}')
+        print(f'\n>>> Eve decryption attempt with Bob\'s key\n{eve_received_plaintext_from_bob_key.decode("utf-8")}')
 
 if __name__ == "__main__":
 
     if sys.prefix == sys.base_prefix:
-        print(">>> Attenzione: ambiente virtuale non è attivo. Alcuni moduli potrebbero non essere trovati: assicurati di aver attivato l'ambiente virtuale con le librerie specificate in \"requirements.txt\" prima di eseguire questo script.")
+        print(">>> Warning: virtual environment is not active. Some modules may not be found: make sure to activate the virtual environment with the libraries specified in \"requirements.txt\" before running this script.")
         exit(1)
 
     from qiskit_aer import AerSimulator
@@ -121,9 +128,9 @@ if __name__ == "__main__":
     while True:
 
         try:
-            protocol_choice = int(input("\nSimulazione del protocollo E91 ed E-E91 con Qiskit.\nQuale protocollo vuoi eseguire? (0 = E91, 1 = E-E91, 2 = Arresta il programma) "))
+            protocol_choice = int(input("\nSimulation of the E91 and E-E91 protocols with Qiskit.\nWhich protocol would you like to run? (0 = E91, 1 = E-E91, 2 = Exit) "))
         except ValueError:
-            print(">>> Input non valido. Inserisci 0, 1 o 2.")
+            print(">>> Invalid input. Enter 0, 1 or 2.")
             continue
 
         if protocol_choice == 0:
@@ -142,9 +149,9 @@ if __name__ == "__main__":
             Simulate_EE91(datatransformer = datatransformer, classifiers = [rf, svc, sgd, ada, net, mhn])
 
         elif protocol_choice == 2:
-            print(">>> Arresto del programma.")
+            print(">>> Exiting program.")
             break
 
         else:
-            print(">>> Input non valido. Inserisci 0, 1 o 2.")
+            print(">>> Invalid input. Enter 0, 1 or 2.")
             continue

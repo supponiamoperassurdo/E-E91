@@ -1,72 +1,72 @@
-# E-E91 — Simulazione, analisi e rilevamento di intercettazioni per il protocollo E91
+# E-E91 — Simulation, analysis and eavesdropper detection for the E91 protocol
 
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)]()
 [![Python](https://img.shields.io/badge/python-3.11%2B-yellow.svg)]()
 [![Qiskit](https://img.shields.io/badge/qiskit-v1.2-lightgrey)]()
 
-## Indice
-- [E-E91 — Simulazione, analisi e rilevamento di intercettazioni per il protocollo E91](#e-e91--simulazione-analisi-e-rilevamento-di-intercettazioni-per-il-protocollo-e91)
-  - [Indice](#indice)
-- [Descrizione](#descrizione)
-- [Caratteristiche principali](#caratteristiche-principali)
-- [Struttura del repository](#struttura-del-repository)
-- [Requisiti e installazione](#requisiti-e-installazione)
-- [Esempi d'uso](#esempi-duso)
-- [Features](#features)
-- [Licenza](#licenza)
-- [Riferimenti essenziali](#riferimenti-essenziali)
+## Table of Contents
+- [E-E91 — Simulation, analysis and eavesdropper detection for the E91 protocol](#e-e91--simulation-analysis-and-eavesdropper-detection-for-the-e91-protocol)
+  - [Table of Contents](#table-of-contents)
+- [Description](#description)
+- [Main features](#main-features)
+- [Repository structure](#repository-structure)
+- [Requirements and installation](#requirements-and-installation)
+- [Usage examples](#usage-examples)
+- [Features (data)](#features-data)
+- [License](#license)
+- [Essential references](#essential-references)
 
 ---
 
-# Descrizione
-Repository per la simulazione e l'analisi del protocollo **E-E91** (Enhanced-E91) con:
+# Description
+Repository for the simulation and analysis of the **E-E91** (Enhanced-E91) protocol with:
 
-- Simulazioni in Qiskit.
-- Implementazione di attacchi/intercettazioni configurabili,
-- Pipeline di estrazione feature da statistiche CHSH e distribuzioni di anticorrelazione.
-- Modelli per il rilevamento di `Eavesdropper`.
+- Simulations in Qiskit.
+- Configurable implementation of attacks/eavesdropping.
+- Pipeline for feature extraction from CHSH statistics and anticorrelation distributions.
+- Models for `Eavesdropper` detection.
 
-Obiettivo: fornire codice riproducibile per testare ipotesi e costruire un classificatore che distingua canali puliti da canali compromessi.
+Goal: provide reproducible code to test hypotheses and build a classifier that distinguishes clean channels from compromised channels.
 
 ---
 
-# Caratteristiche principali
-- Simulazioni E91 (stati di Bell, misure, basi casuali).
-- Simulazione di rumore e attacchi: in particolare, ci si è soffermati su un attacco tipico, ovvero *intercept-resend*.
-- Calcolo statistico del valore CHSH su sample (distribuzioni, medie, varianze).
-- Estrazione automatica di feature dalle colonne `CHSH samples statistics` e `Anticorrelation distribution`.
-- Pipeline di training e valutazione per rilevamento `Eavesdropper` (scikit-learn/PyTorch).
-- Notebook utilizzato nel corso del progetto.
+# Main features
+- E91 simulations (Bell states, measurements, random bases).
+- Noise and attack simulation: in particular, I focused on a typical attack, i.e. *intercept-resend*.
+- Statistical computation of the CHSH value on samples (distributions, means, variances).
+- Automatic feature extraction from the `CHSH samples statistics` and `Anticorrelation distribution` fields.
+- Training and evaluation pipeline for `Eavesdropper` detection (scikit-learn/PyTorch).
+- Notebook used during the project.
 ---
 
-# Struttura del repository
+# Repository structure
 ```
 E-E91/
 ├─ README.md
-├─ run.ps1              # per avviare main.py tramite ambiente virtuale
+├─ run.ps1              # helper to run main.py using the virtual environment
 ├─ run.sh
-├─ bibliografia.bib     # bibliografia del progetto di tesi
+├─ bibliografia.bib     # bibliography used for the thesis
 ├─ requirements.txt
 ├─ LICENSE
 ├─ .gitignore
 ├─ package/
 │  ├─ __init__.py
-│  ├─ classifiers.py    # implementazioni dei wrapper 
-│  ├─ E91.py            # codice per la simulazione dell'E91
-│  ├─ EE91.py           # implementazione della componente intelligente E-E91
-│  ├─ experiments.py    # esecuzione degli esperimenti
-│  ├─ extracts.py       # processazione dei dataset
-│  ├─ noise.py          # funzioni utili per la simulazione di rumore di canale
-│  └─ utils.py          # funzioni utilitarie
-├─ main.py              # script principale dove avviene la simulazione
-├─ Eavesdropping detection in canali quantistici rumorosi tramite l'uso del machine learning.ipynb
-├─ imbq_backends_properties/    # contiene le proprietà dei backend IBM Quantum
+│  ├─ classifiers.py    # wrapper implementations
+│  ├─ E91.py            # E91 simulation code
+│  ├─ EE91.py           # implementation of the E-E91 intelligent component
+│  ├─ experiments.py    # experiment runner
+│  ├─ extracts.py       # dataset processing
+│  ├─ noise.py          # helper functions for channel noise simulation
+│  └─ utils.py          # utility functions
+├─ main.py              # main script where simulations are executed
+├─ Eavesdropping detection in noisy quantum channels using machine learning.ipynb
+├─ imbq_backends_properties/    # contains IBM Quantum backend properties
 │  ├─ ibm_brisbane_properties.json
 │  └─ ibm_sherbrooke_properties.json
 └─ data/
    ├─ experiments/     
    │  ├─ E-E91_tests_fiber_noise_Ensemble.csv
-   │  ├─ E-E91_tests_fiber_noise_Ensemble.json # per gestire il checkpoint del LHS
+   │  ├─ E-E91_tests_fiber_noise_Ensemble.json # checkpoint for LHS management
    │  ...
    │  └─ ...
    ├─ lhs/      
@@ -86,20 +86,20 @@ E-E91/
 
 ---
 
-# Requisiti e installazione
-Si consiglia l'uso di un ambiente virtuale, per esempio:
+# Requirements and installation
+A virtual environment is recommended, for example:
 
 ```bash
-# crea env (virtualenv)
+# create env (virtualenv)
 python -m venv venv
-source venv/bin/activate       # Linux
-# venv\Scripts\Activate.ps1    # Windows
+source venv/bin/activate       # Linux / macOS
+# venv\Scripts\Activate.ps1    # Windows PowerShell
 
-# installa dipendenze
+# install dependencies
 pip install -r requirements.txt
 ```
 
-Il file `requirements.txt` contiene le seguenti dipendenze:
+The `requirements.txt` file contains the following dependencies:
 
 ```
 numpy
@@ -118,24 +118,24 @@ qiskit_aer >=0.16
 qiskit_ibm_runtime >=0.29 , <0.40
 ```
 
-Per l'installazione delle reti di Hopfield moderne, è necessario eseguire:
+To install modern Hopfield networks, run:
 
 ```
-set PYTHONUTF8=1 # Su Windows usare: $env:PYTHONUTF8=1
+set PYTHONUTF8=1 # On Windows use: $env:PYTHONUTF8=1
 pip install "git+https://github.com/ml-jku/hopfield-layers"
 ```
 ---
 
-# Esempi d'uso
-Per la simulazione è sufficiente eseguire `main.py`.
+# Usage examples
+To run a simulation simply execute `main.py`.
 
-# Features
-I dati sono estratti per il mio lavoro provengono da due colonne chiave:  
+# Features (data)
+The data extracted for this work come from two key columns:
 
-- `CHSH samples statistics` (es. un dizionario con `mode`, `median`, `mean`, `variance`, `skewness`, `kurtosis`).
-- `Anticorrelation distribution` (es. quantità di anti-correlazione tra i qubit di Alice e Bob rispetto a una determinata base del test di Bell).
+- `CHSH samples statistics` (e.g. a dictionary with `mode`, `median`, `mean`, `variance`, `skewness`, `kurtosis`).
+- `Anticorrelation distribution` (e.g. the amount of anticorrelation between Alice's and Bob's qubits with respect to a given Bell test basis).
 
-Un esempio di CSV (riga singola):
+An example CSV (single row):
 ```csv
 Eavesdropper,"(X, W) anticorrelation","(X, V) anticorrelation","(Z, W) anticorrelation","(Z, V) anticorrelation",CHSH samples mode (mode),CHSH samples median (mode),CHSH samples mean (mode),CHSH samples skewness (mode),CHSH samples mode (median),CHSH samples median (median),CHSH samples mean (median),CHSH samples skewness (median),CHSH samples mode (mean),CHSH samples median (mean),CHSH samples mean (mean),CHSH samples skewness (mean)
 1,0.559322033898305,0.3725490196078431,0.54,0.5517241379310345,-1.0,-1.0,-0.11864406779661017,-0.5272196186749782,-1.0,-1.0,-0.09172413793103448,0.18426352218274328,-0.5,-0.5,-0.011797595718591361,0.020070871347532444
@@ -143,12 +143,12 @@ Eavesdropper,"(X, W) anticorrelation","(X, V) anticorrelation","(Z, W) anticorre
 
 ---
 
-# Licenza
-Questo progetto è rilasciato sotto licenza **MIT**. Aggiungi un file `LICENSE` con il testo MIT se desideri questa licenza.
+# License
+This project is released under the **MIT** license. Add a `LICENSE` file with the MIT text if you choose this license.
 
 ---
 
-# Riferimenti essenziali
+# Essential references
 
 - **Ekert, A. K. (1991)** — *Quantum cryptography based on Bell’s theorem*. *Physical Review Letters* 67, 661–663.
 
@@ -157,17 +157,16 @@ Questo progetto è rilasciato sotto licenza **MIT**. Aggiungi un file `LICENSE` 
 - **Clauser, J. F., Horne, M. A., Shimony, A., & Holt, R. A. (1969)** — *Proposed experiment to test local hidden-variable theories*. *Physical Review Letters* 23, 880–884.
 
 - **Nielsen, M. A. & Chuang, I. L. (2000)** — *Quantum Computation and Quantum Information*. Cambridge University Press.  
-Testo di riferimento su circuiti quantistici, misure e formalismo.
+Reference textbook on quantum circuits, measurements and formalism.
 
 - **Gisin, N., Ribordy, G., Tittel, W., & Zbinden, H. (2002)** — *Quantum cryptography*. *Reviews of Modern Physics* 74, 145–195.  
-Revisione completa sui protocolli QKD, aspetti pratici e implementazioni sperimentali.
+Comprehensive review on QKD protocols, practical aspects and experimental implementations.
 
 - **Qiskit Documentation (v1.2)** — *IBM / Qiskit docs*.  
-Documentazione delle API e dei simulatori usati.
+Documentation for the APIs and simulators used.
 
 - **Pedregosa, F. et al. (2011)** — *Scikit-learn: Machine Learning in Python*. *Journal of Machine Learning Research* 12, 2825–2830.  
 
 - **Paszke, A. et al. (2019)** — *PyTorch: An Imperative Style, High-Performance Deep Learning Library*. *NeurIPS Workshop Proceedings*.
 
-> **Nota:** la bibliografia completa è disponibile nel file `bibliografia.bib` del repository per chi volesse approfondire ulteriormente.
-
+> **Note:** the complete bibliography is available in the `bibliografia.bib` file in the repository for readers who want to go deeper.
