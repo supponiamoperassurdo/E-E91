@@ -2,7 +2,7 @@
 
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)]()
 [![Python](https://img.shields.io/badge/python-3.11%2B-yellow.svg)]()
-[![Qiskit](https://img.shields.io/badge/qiskit-v1.2-lightgrey)]()
+[![Qiskit](https://img.shields.io/badge/qiskit-v1.3+-lightgrey)]()
 
 ## Table of Contents
 - [E-E91 — Simulation, analysis and eavesdropper detection for the E91 protocol](#e-e91--simulation-analysis-and-eavesdropper-detection-for-the-e91-protocol)
